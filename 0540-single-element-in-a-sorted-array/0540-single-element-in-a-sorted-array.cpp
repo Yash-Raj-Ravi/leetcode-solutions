@@ -30,26 +30,59 @@
 // };
 
 // 2.Brute-II (XOR)
-class Solution {
-public:
-    int singleNonDuplicate(vector<int>& nums) {
-       int n = nums.size();
-       int single=0;
-       for(int i=0;i<n;i++)
-       {
-        single^=nums[i];
-       }
-       return single;
-    }
-};
-
-// 3.Optimal
 // class Solution {
 // public:
 //     int singleNonDuplicate(vector<int>& nums) {
-//         int n = nums.size();
-//         int low=0;
-//         int high=n-1;
-        
+//        int n = nums.size();
+//        int single=0;
+//        for(int i=0;i<n;i++)
+//        {
+//         single^=nums[i];
+//        }
+//        return single;
 //     }
 // };
+
+// 3.Optimal
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        int n = nums.size();
+        int low=1;
+        int high=n-2;
+
+        if(n==1)
+        {
+            return nums[0]; 
+        }
+        if(nums[low]!=nums[low-1])
+        {
+            return nums[low-1]; 
+        }
+        else if(nums[high]!=nums[high+1])
+        {
+            return nums[high+1]; 
+        }
+        else{
+        while(low<=high)
+        {
+            int mid=low + (high-low)/2;
+            if(nums[mid-1]!=nums[mid] && nums[mid]!=nums[mid+1])
+            {
+              return nums[mid]; 
+            }
+            if((mid%2==0 && nums[mid]==nums[mid+1]) || (mid%2!=0 && nums[mid-1]==nums[mid]))
+            // If mid is part of correct pair then it means it is not yet distorted by the single element that means single element is yet to come so it lies to the right part thus shift low to mid+1
+            {
+                low=mid+1;
+            }
+            else
+            {
+                high=mid-1;
+            }
+        }
+        }
+        
+        return -1;
+    }
+};
