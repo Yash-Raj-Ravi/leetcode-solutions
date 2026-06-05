@@ -1,35 +1,36 @@
-// 1.Brute
-class Solution {
-public:
-    int findKthPositive(vector<int>& arr, int k) {
-        int maxi = *max_element(arr.begin(),arr.end());
-        int cnt=0;
-        int n=arr.size(); 
-        for(int i=1;i<=maxi+k;)
-        {
-        for(int j=0;j<n;)
-        {
-            if(arr[j]!=i)
-            {
-                cnt++;
-            if(cnt==k)
-            {
-                return i;
-            }
-            i++;
-            }
-            else
-            {
-                j++;
-                i++;
-            }
+// // 1.Brute
+// class Solution {
+// public:
+//     int findKthPositive(vector<int>& arr, int k) {
+//         int maxi = *max_element(arr.begin(),arr.end());
+//         int cnt=0;
+//         int n=arr.size(); 
+//         for(int i=1;i<=maxi+k;)
+//         {
+//         for(int j=0;j<n;)
+//         {
+//             if(arr[j]!=i)
+//             {
+//                 cnt++;
+//             if(cnt==k)
+//             {
+//                 return i;
+//             }
+//             i++;
+//             }
+//             else
+//             {
+//                 j++;
+//                 i++;
+//             }
           
-        }
+//         }
      
-        }
-        return -1;
-    }
-};
+//         }
+//         return -1;
+//     }
+// };
+
 // // 2.Brute (Better)
 // class Solution {
 // public:
@@ -49,9 +50,25 @@ public:
 // };
 
 // 3.Optimal
-// class Solution {
-// public:
-//     int findKthPositive(vector<int>& arr, int k) {
-        
-//     }
-// };
+class Solution {
+public:
+    int findKthPositive(vector<int>& arr, int k) {
+        int low=0;
+        int high=arr.size()-1;
+        while(low<=high)
+        {
+            int mid = low +(high-low)/2;
+            int missing = arr[mid]-(mid+1);
+            if(missing<k)
+            {
+                low=mid+1;
+            }
+            else
+            {
+                high=mid-1;
+            }
+
+        }
+        return high+k+1;
+    }
+};
