@@ -20,25 +20,57 @@
 // };
 
 // 2.Better
+// class Solution {
+// public:
+//     bool searchMatrix(vector<vector<int>>& matrix, int target) {
+//         int rows=matrix.size();
+//         int cols=matrix[0].size();
+//         for(int i=0;i<rows;i++)
+//         {
+//             if(matrix[i][0]<= target && target<= matrix[i][cols-1])
+//             {
+//                 int low = 0;
+//                 int high = cols-1;
+//                 while(low<=high)
+//                 {
+//                     int mid = low + (high-low)/2;
+//                     if(matrix[i][mid]==target)
+//                     {
+//                         return true;
+//                     }
+//                     else if(matrix[i][mid]<target)
+//                     {
+//                         low=mid+1;
+//                     }
+//                     else
+//                     {
+//                         high=mid-1;
+//                     }
+//                 }
+//             }
+//         }
+//         return false;
+//     }
+// };
+
+//3.Optimal
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
         int rows=matrix.size();
         int cols=matrix[0].size();
-        for(int i=0;i<rows;i++)
-        {
-            if(matrix[i][0]<= target && target<= matrix[i][cols-1])
-            {
-                int low = 0;
-                int high = cols-1;
-                while(low<=high)
+         int low = 0;
+         int high = rows*cols-1;
+         while(low<=high)
                 {
                     int mid = low + (high-low)/2;
-                    if(matrix[i][mid]==target)
+                    int row = mid/cols ;
+                    int col = mid%cols ;
+                    if(matrix[row][col]==target)
                     {
                         return true;
                     }
-                    else if(matrix[i][mid]<target)
+                    else if(matrix[row][col]<target)
                     {
                         low=mid+1;
                     }
@@ -47,16 +79,6 @@ public:
                         high=mid-1;
                     }
                 }
-            }
-        }
         return false;
     }
 };
-
-//3.Optimal
-// class Solution {
-// public:
-//     bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        
-//     }
-// };
