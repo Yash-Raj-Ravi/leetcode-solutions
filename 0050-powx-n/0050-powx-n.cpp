@@ -22,10 +22,10 @@
 // 2.Optimal
 class Solution {
 private:
- double power(double x,long n)
+ double power(double x,long long n)
  {
    // Base case
-   if(n==0) return 1;
+   if(n==0) return 1.0;
    if(n==1) return x;
 
    if(n%2==0)
