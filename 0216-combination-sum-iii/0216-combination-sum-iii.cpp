@@ -10,7 +10,7 @@ void helper(int index, vector<vector<int>> &ans,vector<int> &comb,int k,int n)
         return;
     }
 
-    if(k<0 || n<0) return;
+    if(n<0) return;
         for(int i=index;i<10;i++)
         {
         if(i<=n){
