@@ -3,9 +3,11 @@ public:
 
 void helper(int index, vector<vector<int>> &ans,vector<int> &comb,int k,int n)
 {
-    if(k==0 && n==0)
+    if(k==0)
     {
-        ans.push_back(comb);return;
+        if(n==0)
+        {ans.push_back(comb);}
+        return;
     }
 
     if(k<0 || n<0) return;
