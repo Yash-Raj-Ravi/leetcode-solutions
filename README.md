@@ -1,6 +1,6 @@
 # LeetCode Solutions
 
-Solutions to problems solved on LeetCode using C++.
+## Statistics
 
-- Repository managed using LeetHub
-- Problems are added automatically after accepted submissions
+- Total Problems Solved: 33
+- Last Updated: 23 June 2026
