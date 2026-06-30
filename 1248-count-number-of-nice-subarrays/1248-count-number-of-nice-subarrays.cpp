@@ -56,9 +56,9 @@ public:
         return total;
     }
     int numberOfSubarrays(vector<int>& nums, int k) {
-        if (k == 0) {
-            return countSubarrays(k, nums);
-        }
+        // if (k == 0) {
+        //     return countSubarrays(k, nums);
+        // }  Not required since constraints do not allow k=0.
         return countSubarrays(k, nums) - countSubarrays(k - 1, nums);
     }
 };
