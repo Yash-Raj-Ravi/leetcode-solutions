@@ -22,43 +22,59 @@
 // };
 
 // 2.Better
-// class Solution {
-// public:
-//     int numberOfSubarrays(vector<int>& nums, int k) {
-
-//     }
-// };
-
-// 3.Optimal
 class Solution {
 public:
-    int countSubarrays(int k, vector<int>& nums) {
-        int l = 0;
-        int oddCount = 0;
-        int total = 0;
-        int count = 0;
+
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        unordered_map<int,int> prefixSum;
+        prefixSum[0]=1;
+        int total=0;
+        int oddCount=0;
         int n = nums.size();
-        for (int r = 0; r < n; r++) {
-        
-        if (nums[r] % 2 != 0) {
-            oddCount++;
-        }
-        while (oddCount > k) {
-            if (nums[l] % 2 == 1) {
-                oddCount--;
+        for(int i=0;i<n;i++)
+        {
+            oddCount+= (nums[i]%2);
+            
+            if(prefixSum.find(oddCount-k)!=prefixSum.end())
+            {
+                total+= prefixSum[oddCount-k];
             }
-            l++;
-        }
-         count = r - l + 1;
-         total+= count;
-    
+            prefixSum[oddCount]++;
         }
         return total;
     }
-    int numberOfSubarrays(vector<int>& nums, int k) {
-        // if (k == 0) {
-        //     return countSubarrays(k, nums);
-        // }  Not required since constraints do not allow k=0.
-        return countSubarrays(k, nums) - countSubarrays(k - 1, nums);
-    }
 };
+
+// // 3.Optimal
+// class Solution {
+// public:
+//     int countSubarrays(int k, vector<int>& nums) {
+//         int l = 0;
+//         int oddCount = 0;
+//         int total = 0;
+//         int count = 0;
+//         int n = nums.size();
+//         for (int r = 0; r < n; r++) {
+        
+//         if (nums[r] % 2 != 0) {
+//             oddCount++;
+//         }
+//         while (oddCount > k) {
+//             if (nums[l] % 2 == 1) {
+//                 oddCount--;
+//             }
+//             l++;
+//         }
+//          count = r - l + 1;
+//          total+= count;
+    
+//         }
+//         return total;
+//     }
+//     int numberOfSubarrays(vector<int>& nums, int k) {
+//         // if (k == 0) {
+//         //     return countSubarrays(k, nums);
+//         // }  Not required since constraints do not allow k=0.
+//         return countSubarrays(k, nums) - countSubarrays(k - 1, nums);
+//     }
+// };
