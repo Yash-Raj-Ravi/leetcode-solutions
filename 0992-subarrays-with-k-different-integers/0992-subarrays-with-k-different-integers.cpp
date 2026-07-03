@@ -27,16 +27,13 @@ public:
 
 int atmost(vector<int>& nums, int k)
 {
-    int n = nums.size();
+    if(k<0) return 0;
+        int n = nums.size();
         int ans=0; int l=0;
         unordered_map<int,int> mp;
         for(int r=0;r<n;r++)
         {
             mp[nums[r]]++;
-            // if(mp.size()==k)
-            // {
-            //     ans+=r-l+1;
-            // }
             while(mp.size()>k)
             {
                 mp[nums[l]]--;
