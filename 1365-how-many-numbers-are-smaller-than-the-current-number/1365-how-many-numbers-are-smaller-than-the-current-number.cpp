@@ -1,3 +1,4 @@
+// 1.Brute
 class Solution {
 public:
     vector<int> smallerNumbersThanCurrent(vector<int>& nums) {
@@ -16,3 +17,5 @@ public:
         return ans;
     }
 };
+
+// 2.Optimal
