@@ -32,7 +32,7 @@ class Solution {
 private:
     int solve(int m,int row,int i,vector<vector<int>>& triangle,vector<vector<int>>& dp){
         if(row==m-1) return triangle[row][i];
-        if(row>=m || i>=m || i>row) return INT_MAX;
+    
         if(dp[row][i]!=INT_MAX) return dp[row][i];
 
         int down = solve(m,row+1,i,triangle,dp);
