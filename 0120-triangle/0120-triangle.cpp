@@ -27,36 +27,54 @@
 
 // It's better to start memoization from top in this case since top has only one element so we get to have a fixed beginning unlike above:
 
-// 2.Memoization-II
-class Solution {
-private:
-    int solve(int m,int row,int i,vector<vector<int>>& triangle,vector<vector<int>>& dp){
-        if(row==m-1) return triangle[row][i];
-    
-        if(dp[row][i]!=INT_MAX) return dp[row][i];
-
-        int down = solve(m,row+1,i,triangle,dp);
-        int down_right = solve(m,row+1,i+1,triangle,dp);
-
-        return dp[row][i] = triangle[row][i] + min(down,down_right);
-    }
-public:
-    int minimumTotal(vector<vector<int>>& triangle) {
-        int m = triangle.size();
-        vector<vector<int>> dp(m,vector<int>(m,INT_MAX));
-
-        return solve(m,0, 0, triangle, dp);
-    
-    }
-};
-
-
+// // 2.Memoization-II
 // class Solution {
+// private:
+//     int solve(int m,int row,int i,vector<vector<int>>& triangle,vector<vector<int>>& dp){
+//         if(row==m-1) return triangle[row][i];
+    
+//         if(dp[row][i]!=INT_MAX) return dp[row][i];
+
+//         int down = solve(m,row+1,i,triangle,dp);
+//         int down_right = solve(m,row+1,i+1,triangle,dp);
+
+//         return dp[row][i] = triangle[row][i] + min(down,down_right);
+//     }
 // public:
 //     int minimumTotal(vector<vector<int>>& triangle) {
-        
+//         int m = triangle.size();
+//         vector<vector<int>> dp(m,vector<int>(m,INT_MAX));
+
+//         return solve(m,0, 0, triangle, dp);
+    
 //     }
 // };
+
+// 2.Tabulation
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int n = triangle.size();
+        vector<vector<int>> dp(n,vector<int>(n,INT_MAX));
+
+        for(int i=0;i<n;i++)
+        {
+            dp[n-1][i] = triangle[n-1][i];
+        }
+        // n-1 covered above now cover from n-2 till 0:
+        for(int i=n-2;i>=0;i--)
+        {
+            for(int j=i;j>=0;j--)
+            {
+                 int down = dp[i+1][j];
+                 int down_right = dp[i+1][j+1];
+
+                 dp[i][j] = triangle[i][j] + min(down,down_right);
+            }
+        }
+    return dp[0][0];
+    }
+};
 
 
 // class Solution {
