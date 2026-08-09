@@ -50,36 +50,57 @@
 //     }
 // };
 
-// 2.Tabulation
+// // 3.Tabulation
+// class Solution {
+// public:
+//     int minimumTotal(vector<vector<int>>& triangle) {
+//         int n = triangle.size();
+//         vector<vector<int>> dp(n,vector<int>(n,INT_MAX));
+
+//         for(int i=0;i<n;i++)
+//         {
+//             dp[n-1][i] = triangle[n-1][i];
+//         }
+//         // n-1 covered above now cover from n-2 till 0:
+//         for(int i=n-2;i>=0;i--)
+//         {
+//             for(int j=i;j>=0;j--)
+//             {
+//                  int down = dp[i+1][j];
+//                  int down_right = dp[i+1][j+1];
+
+//                  dp[i][j] = triangle[i][j] + min(down,down_right);
+//             }
+//         }
+//     return dp[0][0];
+//     }
+// };
+
+// 4.Space Optimization
 class Solution {
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
         int n = triangle.size();
-        vector<vector<int>> dp(n,vector<int>(n,INT_MAX));
+        vector<int> below_row(n,INT_MAX);
 
         for(int i=0;i<n;i++)
         {
-            dp[n-1][i] = triangle[n-1][i];
+            below_row[i] = triangle[n-1][i];
         }
         // n-1 covered above now cover from n-2 till 0:
         for(int i=n-2;i>=0;i--)
         {
+            vector<int> curr_row(n,INT_MAX);
             for(int j=i;j>=0;j--)
             {
-                 int down = dp[i+1][j];
-                 int down_right = dp[i+1][j+1];
+                 int down = below_row[j];
+                 int down_right = below_row[j+1];
 
-                 dp[i][j] = triangle[i][j] + min(down,down_right);
+                 curr_row[j] = triangle[i][j] + min(down,down_right);
             }
+            below_row = curr_row;
         }
-    return dp[0][0];
+    return below_row[0];
     }
 };
 
-
-// class Solution {
-// public:
-//     int minimumTotal(vector<vector<int>>& triangle) {
-        
-//     }
-// };
