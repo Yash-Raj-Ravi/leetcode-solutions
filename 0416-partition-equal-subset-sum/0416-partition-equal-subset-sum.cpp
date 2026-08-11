@@ -53,38 +53,62 @@
 //     }
 //  };
 
-// 3.Tabulation
+// // 3.Tabulation
+// class Solution {
+// public:
+//     bool canPartition(vector<int>& nums) {
+//         int n = nums.size();
+//         int sum = accumulate(nums.begin(),nums.end(),0);
+//         if(sum%2==1) return false;
+//         int target = sum/2;
+//         vector<vector<bool>> dp(n,vector<bool>(target+1,0));
+//         for(int i=0;i<n;i++) dp[i][0] = true; // If at any index of the array, target becomes zero then return true.
+//         if(nums[0] <= target) dp[0][nums[0]] = true;
+
+//         for(int idx=1;idx<n;idx++)
+//         {
+//             for(int j=1;j<=target;j++)
+//             {
+//                 bool notTake = dp[idx-1][j];
+//                 // Take the value at arr[idx]
+//                 bool take = false; 
+//                 if(j>=nums[idx])
+//                 take = dp[idx-1][j-nums[idx]];
+//                 dp[idx][j] = (take || notTake); 
+//             }
+//         }
+//     return dp[n-1][target];
+//     }
+// };
+
+// 4.Space Optimization
 class Solution {
 public:
     bool canPartition(vector<int>& nums) {
         int n = nums.size();
+        // For optimizing space, we don't need all rows rather only the previous row 
+        // Size taken is target+1 since it represents numbers of columns while n is for rows.
         int sum = accumulate(nums.begin(),nums.end(),0);
         if(sum%2==1) return false;
         int target = sum/2;
-        vector<vector<bool>> dp(n,vector<bool>(target+1,0));
-        for(int i=0;i<n;i++) dp[i][0] = true; // If at any index of the array, target becomes zero then return true.
-        if(nums[0] <= target) dp[0][nums[0]] = true;
+        vector<bool> prev(target+1,0);
+        vector<bool> curr(target+1,0);
+        prev[0] = curr[0] = true; 
+        if(nums[0]<=target) prev[nums[0]] = true;
 
         for(int idx=1;idx<n;idx++)
         {
             for(int j=1;j<=target;j++)
             {
-                bool notTake = dp[idx-1][j];
+                bool notTake = prev[j];
                 // Take the value at arr[idx]
                 bool take = false; 
                 if(j>=nums[idx])
-                take = dp[idx-1][j-nums[idx]];
-                dp[idx][j] = (take || notTake); 
+                take = prev[j-nums[idx]];
+                curr[j] = (take || notTake); 
             }
+            prev = curr;
         }
-    return dp[n-1][target];
+    return prev[target];
     }
 };
-
-
-// class Solution {
-// public:
-//     bool canPartition(vector<int>& nums) {
-        
-//     }
-// };
