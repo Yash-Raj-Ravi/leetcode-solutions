@@ -60,34 +60,70 @@
 //     }
 // };
 
-// 3.Tabulation
+// // 3.Tabulation
+// class Solution {
+// public:
+//     int coinChange(vector<int>& coins, int amount) {
+//         int n = coins.size();
+//         vector<vector<int>> dp(n,vector<int>(amount+1,0));
+
+//         for(int k=0;k<=amount;k++){
+//         if(k % coins[0]==0) dp[0][k] = k/coins[0];
+//         else dp[0][k] = 1e9;
+//         }
+
+//         // for(int i=0;i<n;i++) dp[i][0] = 0;
+
+//         for(int idx=1;idx<n;idx++)
+//         {
+//             for(int j=1;j<=amount;j++)
+//             {
+//         // Skip
+//         int skip = dp[idx-1][j];
+//         // Take
+//         int Take = INT_MAX;
+//         if(j>=coins[idx]) Take = 1 + dp[idx][j-coins[idx]]; // Stand on same index
+
+//         dp[idx][j] = min(Take,skip);
+//             }
+//         }
+//         int ans = dp[n-1][amount];
+//         if(ans>=1e9) return -1;
+//         else
+//         return ans;
+//     }
+// };
+
+// 4.Space Optimization
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
         int n = coins.size();
-        vector<vector<int>> dp(n,vector<int>(amount+1,0));
+        vector<int> prev(amount+1,0);
+        vector<int> curr(amount+1,0);
 
         for(int k=0;k<=amount;k++){
-        if(k % coins[0]==0) dp[0][k] = k/coins[0];
-        else dp[0][k] = 1e9;
+        if(k % coins[0]==0) prev[k] = k/coins[0];
+        else prev[k] = 1e9;
         }
 
-        for(int i=0;i<n;i++) dp[i][0] = 0;
+        // for(int i=0;i<n;i++) dp[i][0] = 0;
 
         for(int idx=1;idx<n;idx++)
         {
             for(int j=1;j<=amount;j++)
             {
         // Skip
-        int skip = dp[idx-1][j];
+        int skip = prev[j];
         // Take
         int Take = INT_MAX;
-        if(j>=coins[idx]) Take = 1 + dp[idx][j-coins[idx]]; // Stand on same index
+        if(j>=coins[idx]) Take = 1 + curr[j-coins[idx]]; // Stand on same index
 
-        dp[idx][j] = min(Take,skip);
+        curr[j] = min(Take,skip);
             }
+            prev = curr;
         }
-        int ans = dp[n-1][amount];
+        int ans = prev[amount];
         if(ans>=1e9) return -1;
         else
         return ans;
