@@ -55,7 +55,39 @@
 //     }
 // };
 
-// 3.Tabulation
+// // 3.Tabulation
+// class Solution {
+// public:
+//     int numDistinct(string s, string t) {
+//         int m = s.size();
+//         int n = t.size();
+
+//         if(t.size()>s.size()) return 0;
+
+//         vector<vector<long long>> dp(m+1,vector<long long>(n+1,0));
+
+//         for(int idx1=0;idx1<=m;idx1++) dp[idx1][0] = 1;
+
+//         for(int idx1=1;idx1<=m;idx1++)
+//         {
+//             for(int idx2=1;idx2<=n;idx2++)
+//             {
+//                 if(s[idx1-1]==t[idx2-1]){
+//             // If the chracter matches , Take it and continue as well as also consider the case of continuing without taking it to look for another occurrence of it.
+//                 long long ways = (long long) dp[idx1-1][idx2-1] + dp[idx1-1][idx2];
+//                 dp[idx1][idx2] = min(ways,(long long)INT_MAX); // To avoid overflow error
+//             }
+//             else
+//             {
+//               dp[idx1][idx2] =  dp[idx1-1][idx2];
+//             }
+//         }
+//         }
+//     return dp[m][n];
+//     }
+// };
+
+// // 4.Space Optimization
 class Solution {
 public:
     int numDistinct(string s, string t) {
@@ -64,25 +96,28 @@ public:
 
         if(t.size()>s.size()) return 0;
 
-        vector<vector<long long>> dp(m+1,vector<long long>(n+1,0));
+        vector<long long> prev(n+1,0);
+        vector<long long> curr(n+1,0);
 
-        for(int idx1=0;idx1<=m;idx1++) dp[idx1][0] = 1;
+        prev[0] = 1;
 
         for(int idx1=1;idx1<=m;idx1++)
         {
+            curr[0]=1;
             for(int idx2=1;idx2<=n;idx2++)
             {
                 if(s[idx1-1]==t[idx2-1]){
             // If the chracter matches , Take it and continue as well as also consider the case of continuing without taking it to look for another occurrence of it.
-                long long ways = (long long) dp[idx1-1][idx2-1] + dp[idx1-1][idx2];
-                dp[idx1][idx2] = min(ways,(long long)INT_MAX);
+                long long ways = (long long) prev[idx2-1] + prev[idx2];
+                curr[idx2] = min(ways,(long long)INT_MAX); // To avoid overflow error
             }
             else
             {
-              dp[idx1][idx2] =  dp[idx1-1][idx2];
+              curr[idx2] =  prev[idx2];
             }
         }
+        prev = curr;
         }
-    return dp[m][n];
+    return prev[n];
     }
 };
