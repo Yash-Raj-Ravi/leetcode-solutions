@@ -129,15 +129,13 @@ public:
 
         prev[0] = true;
 
-        for(int j=1;j<=n;j++) {
-            bool flag = true;
-            for(int idx=1;idx<=j;idx++){
-                 if(p[idx-1] != '*'){
-                  flag = false;
-                  break;
-                 }
-            }
-           prev[j] = flag;
+        // Empty string can only be matched by all '*'
+        for(int j=1; j<=n; j++)
+        {
+            if(p[j-1] == '*')
+                prev[j] = prev[j-1];
+            else
+                prev[j] = false;
         }
 
         for(int i=1;i<=m;i++)
