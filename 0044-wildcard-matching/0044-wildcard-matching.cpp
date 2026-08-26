@@ -79,16 +79,55 @@
 //     }
 // };
 
-// 3.Tabulation
+// // 3.Tabulation
+// class Solution {
+// public:
+//     bool isMatch(string s, string p) {
+//         int m = s.size();
+//         int n = p.size();
+//         vector<vector<int>> dp(m+1,vector<int> (n+1,0));
+
+//         dp[0][0] = true;
+//         for(int i=1;i<=m;i++) dp[i][0] = false;
+
+//         for(int j=1;j<=n;j++) {
+//             bool flag = true;
+//             for(int idx=1;idx<=j;idx++){
+//                  if(p[idx-1] != '*'){
+//                   flag = false;
+//                   break;
+//                  }
+//             }
+//            dp[0][j] = flag;
+//         }
+
+//         for(int i=1;i<=m;i++)
+//         {
+//             for(int j=1;j<=n;j++)
+//             {
+//                 if(s[i-1]==p[j-1] || p[j-1]=='?')  dp[i][j] = dp[i-1][j-1];
+
+//                 else if(p[j-1]=='*')
+//                  dp[i][j] = dp[i-1][j] || dp[i][j-1]; 
+          
+//                 else
+//                 dp[i][j] = false;
+//             }
+//         }
+//     return dp[m][n];
+//     }
+// };
+
+// 4.Space Optimization
 class Solution {
 public:
     bool isMatch(string s, string p) {
         int m = s.size();
         int n = p.size();
-        vector<vector<int>> dp(m+1,vector<int> (n+1,0));
+        vector<bool> prev(n+1,false);
+        vector<bool> curr(n+1,false);
 
-        dp[0][0] = true;
-        for(int i=1;i<=m;i++) dp[i][0] = false;
+        prev[0] = true;
 
         for(int j=1;j<=n;j++) {
             bool flag = true;
@@ -98,25 +137,24 @@ public:
                   break;
                  }
             }
-           dp[0][j] = flag;
+           prev[j] = flag;
         }
 
         for(int i=1;i<=m;i++)
         {
+            curr[0] = false;
             for(int j=1;j<=n;j++)
             {
-                if(s[i-1]==p[j-1] || p[j-1]=='?')  dp[i][j] = dp[i-1][j-1];
+                if(s[i-1]==p[j-1] || p[j-1]=='?')  curr[j] = prev[j-1];
 
                 else if(p[j-1]=='*')
-                 dp[i][j] = dp[i-1][j] || dp[i][j-1]; 
-                // solve(i-1,j,s,p) means we try to match one or more characters from s,  using * from p. 
-                // solve(i,j-1,s,p) means we decide to match no characters from s,  using * from p. 
-
-                // Else if characters do not match and no *
+                 curr[j] = prev[j] || curr[j-1]; 
+          
                 else
-                dp[i][j] = false;
+                curr[j] = false;
             }
+            prev = curr;
         }
-    return dp[m][n];
+    return prev[n];
     }
 };
