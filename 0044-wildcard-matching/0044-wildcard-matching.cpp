@@ -91,10 +91,14 @@ public:
         for(int i=1;i<=m;i++) dp[i][0] = false;
 
         for(int j=1;j<=n;j++) {
-          if(p[j-1] == '*')
-           dp[0][j] = dp[0][j-1];
-          else
-           dp[0][j] = false;
+            bool flag = true;
+            for(int idx=1;idx<=j;idx++){
+                 if(p[idx-1] != '*'){
+                  flag = false;
+                  break;
+                 }
+            }
+           dp[0][j] = flag;
         }
 
         for(int i=1;i<=m;i++)
