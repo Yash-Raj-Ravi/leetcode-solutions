@@ -43,12 +43,12 @@ private:
 
         int maxProfit = 0;
         if(buy){
-            maxProfit = max(-prices[idx] + solve(idx+1,0,prices,dp,fee),solve(idx+1,1,prices,dp,fee)); // buy becomes 0 in first instance after buying one stock since you can't buy further it is sold and prices[idx] is subtracted in profit since buying has to be subtracted from selling to get profit
+            maxProfit = max(- fee -prices[idx] + solve(idx+1,0,prices,dp,fee),solve(idx+1,1,prices,dp,fee)); // buy becomes 0 in first instance after buying one stock since you can't buy further it is sold and prices[idx] is subtracted in profit since buying has to be subtracted from selling to get profit
         }
 
         else // buy==0, Already bought now its time to sell
         {
-            maxProfit = max(prices[idx] - fee + solve(idx+1,1,prices,dp,fee),solve(idx+1,0,prices,dp,fee)); // 1st instance is of selling which leads to buy=1 since you are allowed to buy after selling while 2nd instance is of continuing to other day without selling the stock in order to look for better profit.
+            maxProfit = max(prices[idx] + solve(idx+1,1,prices,dp,fee),solve(idx+1,0,prices,dp,fee)); // 1st instance is of selling which leads to buy=1 since you are allowed to buy after selling while 2nd instance is of continuing to other day without selling the stock in order to look for better profit.
         }
     
         return dp[idx][buy] = maxProfit;
