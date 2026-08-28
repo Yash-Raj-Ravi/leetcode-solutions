@@ -90,56 +90,56 @@
 //     }
 // };
 
-// 4.Space Optimization
-// We are filling dp table from last row to front and each upper row requires only the row below it for getting filled.
+// // 4.Space Optimization
+// // We are filling dp table from last row to front and each upper row requires only the row below it for getting filled.
+// class Solution {
+// public:
+//     int maxProfit(vector<int>& prices,int fee) {
+//         int n = prices.size();
+//         vector<int> ahead(2,0), curr(2,0);
+        
+//         for(int idx=n-1;idx>=0;idx--)
+//         {
+//             for(int buy=1;buy>=0;buy--)
+//             {
+//                 int maxProfit = 0;
+//                 if(buy){
+//                     maxProfit = max(-prices[idx] + ahead[0],ahead[1]); // buy becomes 0 in first instance after buying one stock since you can't buy further it is sold and prices[idx] is subtracted in profit since buying has to be subtracted from selling to get profit
+//                 }
+
+//                 else // buy==0, Already bought now its time to sell
+//                 {
+//                     maxProfit = max(prices[idx] -fee + ahead[1],ahead[0]); // 1st instance is of selling which leads to buy=1 since you are allowed to buy after selling while 2nd instance is of continuing to other day without selling the stock in order to look for better profit.
+//                 }
+
+//                 curr[buy] = maxProfit;
+//             }
+//             ahead = curr;
+//         }
+//     return ahead[1];
+//     }
+// };
+
+// 5.Space Optimization (Using 4 variables in place 2 arrays of size 2 each.)
+
 class Solution {
 public:
     int maxProfit(vector<int>& prices,int fee) {
         int n = prices.size();
-        vector<int> ahead(2,0), curr(2,0);
+        int aheadBuy=0,aheadNotbuy=0;
+        int currBuy=0,currNotbuy=0;
         
         for(int idx=n-1;idx>=0;idx--)
         {
-            for(int buy=1;buy>=0;buy--)
-            {
-                int maxProfit = 0;
-                if(buy){
-                    maxProfit = max(-prices[idx] + ahead[0],ahead[1]); // buy becomes 0 in first instance after buying one stock since you can't buy further it is sold and prices[idx] is subtracted in profit since buying has to be subtracted from selling to get profit
-                }
+    
+            currBuy = max(-prices[idx] + aheadNotbuy,aheadBuy); // buy becomes 0 in first instance after buying one stock since you can't buy further it is sold and prices[idx] is subtracted in profit since buying has to be subtracted from selling to get profit
+        
 
-                else // buy==0, Already bought now its time to sell
-                {
-                    maxProfit = max(prices[idx] -fee + ahead[1],ahead[0]); // 1st instance is of selling which leads to buy=1 since you are allowed to buy after selling while 2nd instance is of continuing to other day without selling the stock in order to look for better profit.
-                }
-
-                curr[buy] = maxProfit;
-            }
-            ahead = curr;
+            currNotbuy = max(prices[idx] -fee + aheadBuy,aheadNotbuy); // 1st instance is of selling which leads to buy=1 since you are allowed to buy after selling while 2nd instance is of continuing to other day without selling the stock in order to look for better profit.
+            
+            aheadBuy = currBuy;
+            aheadNotbuy = currNotbuy;
         }
-    return ahead[1];
+    return aheadBuy;
     }
 };
-
-// // 5.Space Optimization (Using 4 variables in place 2 arrays of size 2 each.)
-
-// class Solution {
-// public:
-//     int maxProfit(vector<int>& prices) {
-//         int n = prices.size();
-//         int aheadBuy=0,aheadNotbuy=0;
-//         int currBuy=0,currNotbuy=0;
-        
-//         for(int idx=n-1;idx>=0;idx--)
-//         {
-    
-//             currBuy = max(-prices[idx] + aheadNotbuy,aheadBuy); // buy becomes 0 in first instance after buying one stock since you can't buy further it is sold and prices[idx] is subtracted in profit since buying has to be subtracted from selling to get profit
-        
-
-//             currNotbuy = max(prices[idx] + aheadBuy,aheadNotbuy); // 1st instance is of selling which leads to buy=1 since you are allowed to buy after selling while 2nd instance is of continuing to other day without selling the stock in order to look for better profit.
-            
-//             aheadBuy = currBuy;
-//             aheadNotbuy = currNotbuy;
-//         }
-//     return aheadBuy;
-//     }
-// };
