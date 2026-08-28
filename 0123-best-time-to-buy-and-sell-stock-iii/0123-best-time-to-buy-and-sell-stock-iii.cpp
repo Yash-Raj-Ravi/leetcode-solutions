@@ -59,12 +59,44 @@
 //     }
 // };
 
-// 3.Tabulation
+// // 3.Tabulation
+// class Solution {
+// public:
+//     int maxProfit(vector<int>& prices) {
+//         int n = prices.size();
+//         vector<vector<vector<int>>> dp(n+1,vector<vector<int>> (2,vector<int> (3,0)));
+
+//      for(int idx=n-1;idx>=0;idx--)
+//         {
+//             for(int buy=1;buy>=0;buy--)
+//             {
+//                 for(int transactions=0;transactions<2;transactions++)
+//                 {
+//                 int maxProfit = -1e9;
+
+//                 if(buy)
+//                 {
+//                     maxProfit = max(-prices[idx] + dp[idx+1][0][transactions],dp[idx+1][1][transactions]);
+//                 }
+//                 else // Time to sell
+//                 {
+//                     maxProfit = max(prices[idx] + dp[idx+1][1][transactions+1],dp[idx+1][0][transactions]);
+//                 }
+//             dp[idx][buy][transactions] = maxProfit;
+//                 }
+//             }
+//         }
+//         return dp[0][1][0];
+//     }
+// };
+
+// 4.Space Optimization
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
         int n = prices.size();
-        vector<vector<vector<int>>> dp(n+1,vector<vector<int>> (2,vector<int> (3,0)));
+        vector<vector<int>> ahead(2,vector<int> (3,0));
+        vector<vector<int>> curr(2,vector<int> (3,0));
 
      for(int idx=n-1;idx>=0;idx--)
         {
@@ -76,16 +108,17 @@ public:
 
                 if(buy)
                 {
-                    maxProfit = max(-prices[idx] + dp[idx+1][0][transactions],dp[idx+1][1][transactions]);
+                    maxProfit = max(-prices[idx] + ahead[0][transactions],ahead[1][transactions]);
                 }
                 else // Time to sell
                 {
-                    maxProfit = max(prices[idx] + dp[idx+1][1][transactions+1],dp[idx+1][0][transactions]);
+                    maxProfit = max(prices[idx] + ahead[1][transactions+1],ahead[0][transactions]);
                 }
-            dp[idx][buy][transactions] = maxProfit;
+            curr[buy][transactions] = maxProfit;
                 }
             }
+            ahead = curr;
         }
-        return dp[0][1][0];
+        return ahead[1][0];
     }
 };
