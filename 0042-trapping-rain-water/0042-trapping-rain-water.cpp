@@ -1,64 +1,72 @@
+// 1.Approach-I
 // class Solution {
 // public:
 //     int trap(vector<int>& height) {
 //         int n = height.size();
-//         int start = 0; int end = 2;
-//         int ans = 0;
-//         while(end<n)
-//         {
-//             if(start>0 && end>0){
-//                 while(end < n && height[end] < height[start]){
-//                     end++;
-//                 }
-//                 if(end==n) break;
-//                 int gap = end-start-1;
-//                 int h = min(height[start],height[end]); // Height of smaller
-//                 ans+= h*gap - accumulate(height.begin() + start + 1, height.begin() + end,0); // 2nd iterator is exclusive
-//                 start = end+1; end = start+2;
+//         vector<int> prefixMax(n); // Stores max value found till index i in height from left end.
+//         vector<int> suffixMax(n); // Stores max value found till index i in height from right end.
 
+//         prefixMax[0] = height[0];
+//         for(int i=1;i<n;i++)
+//         {
+//             prefixMax[i] = max(height[i],prefixMax[i-1]);
+//         }
+
+//         suffixMax[n-1] = height[n-1];
+//         for(int i=n-2;i>=0;i--)
+//         {
+//             suffixMax[i] = max(height[i],suffixMax[i+1]);
+//         }
+
+//         int ans = 0;
+//         for(int i=0;i<n;i++)
+//         {
+//            int leftMax = prefixMax[i];
+//            int rightMax = suffixMax[i];
+
+//             if(height[i] < leftMax && height[i] <rightMax){
+//                 ans += min(leftMax,rightMax) - height[i];
 //             }
-//             else if(start>0 && end==0){
-//                 end++;
-//             }
-//             else if(start==0){
-//                 start++; end++;
-//             }
+
 //         }
 //         return ans;
 //     }
 // };
 
-
+// 2.Space Optimization
 class Solution {
 public:
     int trap(vector<int>& height) {
         int n = height.size();
-        vector<int> prefixMax(n); // Stores max value found till index i in height from left end.
-        vector<int> suffixMax(n); // Stores max value found till index i in height from right end.
-
-        prefixMax[0] = height[0];
-        for(int i=1;i<n;i++)
-        {
-            prefixMax[i] = max(height[i],prefixMax[i-1]);
-        }
-
-        suffixMax[n-1] = height[n-1];
-        for(int i=n-2;i>=0;i--)
-        {
-            suffixMax[i] = max(height[i],suffixMax[i+1]);
-        }
-
         int ans = 0;
-        for(int i=0;i<n;i++)
+
+        int leftMax=0,rightMax=0;
+        int l=0, r=n-1;
+
+        while(l<r)
         {
-           int leftMax = prefixMax[i];
-           int rightMax = suffixMax[i];
-
-            if(height[i] < leftMax && height[i] <rightMax){
-                ans += min(leftMax,rightMax) - height[i];
+            if(height[l] <= height[r]){
+                if(leftMax > height[l]){
+                    ans+= leftMax - height[l];
+                }
+                else{
+                    leftMax = height[l];
+                }
+                l = l+1;
             }
-
+            else
+            {
+                if(rightMax > height[r]){
+                    ans+= rightMax - height[r];
+                }
+                else{
+                    rightMax = height[r];
+                }
+                r = r-1;
+            }
         }
+        
+    
         return ans;
     }
 };
