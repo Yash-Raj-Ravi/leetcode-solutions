@@ -1,3 +1,4 @@
+// Uses the idea of largest rectangle in histogram by considering each row as constituent of histogram sequentially.
 class Solution {
 private:
     int largestRectangleArea(vector<int>& heights) {
@@ -28,12 +29,7 @@ public:
 
         vector<int> heights(matrix[0].size(), 0);
 
-        for(int j = 0; j < matrix[0].size(); j++) {
-            heights[j] = matrix[0][j] - '0';
-        }
-
-        largestR = largestRectangleArea(heights);
-        for(int i = 1;i<rows;i++){
+        for(int i = 0;i<rows;i++){
             for(int j=0;j<cols;j++){
                 if(matrix[i][j]=='1') heights[j] += 1;
                 else heights[j] = 0;
