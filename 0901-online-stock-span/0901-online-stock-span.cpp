@@ -31,12 +31,11 @@ public:
     
     int next(int price) {
         idx = idx + 1;
-        int ans = -1;
 
         while(!st.empty() && st.top().first <= price){
             st.pop();
         }
-        ans = idx - (st.empty()?-1:st.top().second);
+        int ans = (st.empty()?idx+1:idx - st.top().second);
         st.push({price,idx});
 
     return ans;
