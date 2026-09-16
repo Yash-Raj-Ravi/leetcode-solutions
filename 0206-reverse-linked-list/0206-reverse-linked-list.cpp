@@ -9,23 +9,42 @@
  * };
  */
 
-// 1.Brute
+// // 1.Brute
+// class Solution {
+// public:
+//     ListNode* reverseList(ListNode* head) {
+//         stack<int> st;
+//         ListNode* temp = head;
+//         while(temp!=nullptr){
+//             st.push(temp->val);
+//             temp = temp->next;
+//         }
+
+//         temp = head;
+//         while(!st.empty()){
+//             temp->val = st.top();
+//             st.pop();
+//             temp = temp->next;
+//         }
+//         return head;
+//     }
+// };
+
+// 2.Optimal
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        stack<int> st;
-        ListNode* temp = head;
-        while(temp!=nullptr){
-            st.push(temp->val);
-            temp = temp->next;
-        }
+      if(head == nullptr || head->next == nullptr) return head;
 
-        temp = head;
-        while(temp!=nullptr){
-            temp->val = st.top();
-            st.pop();
-            temp = temp->next;
-        }
-        return head;
+       ListNode* p = head;
+       ListNode* q = nullptr;
+       ListNode* r = nullptr;
+       while(p!=nullptr){
+        r = q;
+        q = p;
+        p = p->next;
+        q->next = r;
+       }
+     return q;
     }
 };
