@@ -21,7 +21,7 @@ public:
         }
 
         temp = head;
-        while(temp!=nullptr){
+        while(!st.empty()){
             temp->val = st.top();
             st.pop();
             temp = temp->next;
