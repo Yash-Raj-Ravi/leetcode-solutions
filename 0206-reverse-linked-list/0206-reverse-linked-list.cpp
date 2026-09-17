@@ -30,21 +30,39 @@
 //     }
 // };
 
-// 2.Optimal
+// // 2.Optimal (Iterative)
+// class Solution {
+// public:
+//     ListNode* reverseList(ListNode* head) {
+//       if(head == nullptr || head->next == nullptr) return head;
+
+//        ListNode* p = head;
+//        ListNode* q = nullptr;
+//        ListNode* r = nullptr;
+//        while(p!=nullptr){
+//         r = q;
+//         q = p;
+//         p = p->next;
+//         q->next = r;
+//        }
+//      return q;
+//     }
+// };
+
+// // 3.Recursive
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head) {
+    ListNode* reverseList(ListNode* head){
+        // Base case
       if(head == nullptr || head->next == nullptr) return head;
+      // Reach the last node and then reverse the links in returning phase
+      ListNode* newHead = reverseList(head->next);
 
-       ListNode* p = head;
-       ListNode* q = nullptr;
-       ListNode* r = nullptr;
-       while(p!=nullptr){
-        r = q;
-        q = p;
-        p = p->next;
-        q->next = r;
-       }
-     return q;
+      // Reversing the links
+      ListNode* front = head->next;
+      front->next = head;
+      head->next = nullptr;
+
+      return newHead;
     }
 };
