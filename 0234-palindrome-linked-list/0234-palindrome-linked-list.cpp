@@ -37,31 +37,45 @@
 
 // 2.Optimal
 class Solution {
+private:
+    ListNode* reverseList(ListNode* newhead) {
+      if(newhead == nullptr || newhead->next == nullptr) return newhead;
+
+       ListNode* p = newhead;
+       ListNode* q = nullptr;
+       ListNode* r = nullptr;
+       while(p!=nullptr){
+        r = q;
+        q = p;
+        p = p->next;
+        q->next = r;
+       }
+     return q;
+    }
+
 public:
     bool isPalindrome(ListNode* head) {
         if(head == nullptr || head->next == nullptr) return true;
 
         ListNode *slow = head, *fast = head;
-        while(fast!=nullptr && fast->next!=nullptr){
+        while(fast->next!=nullptr && fast->next->next!=nullptr){
             slow = slow->next;
             fast = fast->next->next;
         }
 
-        ListNode *p = slow, *q=nullptr, *r=nullptr;
-        while(p!=nullptr){
-            r=q;
-            q=p;
-            p=p->next;
-            q->next = r;
-
-        }
-
-        ListNode *move = q;
+        ListNode *newHead = reverseList(slow->next);
+        ListNode *move = newHead;
         while(move!=nullptr){
-            if(head->val != move->val) return false;
+            if(head->val != move->val) {
+                // Restore back the original Linked List before returning
+                reverseList(newHead);
+                return false;
+                }
             head = head->next;
             move = move->next;
         }
+        // Restore back the original Linked List before returning
+        reverseList(newHead);
         return true;
     }
 };
