@@ -13,6 +13,8 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
+        if(head == nullptr || head->next == nullptr) return true;
+
         ListNode *back = head;
         stack<int> st;
         while(back!=nullptr){
@@ -23,7 +25,7 @@ public:
         int cnt = 0;
         int sz = st.size()/2;
 
-        while(head->val == st.top() && cnt<sz){
+        while(cnt<sz  && head->val == st.top()){
             st.pop();
             head = head->next;
             cnt++;
