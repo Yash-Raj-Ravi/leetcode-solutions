@@ -9,34 +9,46 @@
  * };
  */
 
-// 1.Brute
+// // 1.Brute
+// class Solution {
+// public:
+//     ListNode* deleteMiddle(ListNode* head) {
+//         if(head->next==nullptr) return nullptr;
+
+//         ListNode *temp = head;
+//         int len = 0;
+//         while(temp!=nullptr){
+//             len++;
+//             temp = temp->next;
+//         }
+//         temp = head;
+//         for(int i=1;i<len/2;i++){
+//             temp = temp->next;
+//         }
+//         ListNode *p = temp->next;
+//         temp->next = p->next;
+//         delete p;
+//         return head;
+
+//     }
+// };
+
+// 2.Optimal
 class Solution {
 public:
     ListNode* deleteMiddle(ListNode* head) {
-        if(head->next==nullptr) return nullptr;
+        if(head->next == nullptr) return nullptr;
 
-        ListNode *temp = head;
-        int len = 0;
-        while(temp!=nullptr){
-            len++;
-            temp = temp->next;
+        ListNode *slow = head, *fast = head , *prev = nullptr;
+        while(fast!=nullptr && fast->next!=nullptr){
+            prev = slow;
+            slow = slow->next;
+            fast = fast->next->next;
         }
-        temp = head;
-        for(int i=1;i<len/2;i++){
-            temp = temp->next;
-        }
-        ListNode *p = temp->next;
-        temp->next = p->next;
-        delete p;
+
+        prev->next = slow->next;
+        delete slow;
         return head;
 
     }
 };
-
-
-// class Solution {
-// public:
-//     ListNode* deleteMiddle(ListNode* head) {
-        
-//     }
-// };
