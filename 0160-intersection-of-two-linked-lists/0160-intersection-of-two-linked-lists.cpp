@@ -29,18 +29,55 @@
 // };
 
 // 2.Brute-II 
+// class Solution {
+// public:
+//     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+//         while(headB!=nullptr){
+//         ListNode *temp = headA;
+//         while(temp!=nullptr){
+//             if(temp == headB) return headB;
+//             temp = temp->next;
+//         }
+//         headB = headB->next;
+//         }
+//         return nullptr;
+//     }
+// };
+
+// 3.Optimal-I
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        while(headB!=nullptr){
-        ListNode *temp = headA;
-        while(temp!=nullptr){
-            if(temp == headB) return headB;
-            temp = temp->next;
+        ListNode *a = headA, *b = headB;
+        int lenA=0, lenB=0, Diff=0;
+        while(a!=nullptr){
+            lenA++;
+            a=a->next;
         }
-        headB = headB->next;
+        while(b!=nullptr){
+            lenB++;
+            b=b->next;
         }
-        return nullptr;
+        Diff = abs(lenA-lenB);
+        a = headA, b = headB;
+        if(lenA>=lenB){
+            while(Diff>0){
+                a = a->next;
+                Diff--;
+            }
+        }
+        else{
+            while(Diff>0){
+                b = b->next;
+                Diff--;
+            }
+        }
+
+        while(a!=b){
+            a=a->next;
+            b=b->next;
+        }
+        return a;
     }
 };
 
