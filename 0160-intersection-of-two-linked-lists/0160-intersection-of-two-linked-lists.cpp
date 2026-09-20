@@ -44,47 +44,53 @@
 //     }
 // };
 
-// 3.Optimal-I
+// // 3.Optimal-I
+// class Solution {
+// public:
+//     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+//         ListNode *a = headA, *b = headB;
+//         int lenA=0, lenB=0, Diff=0;
+//         while(a!=nullptr){
+//             lenA++;
+//             a=a->next;
+//         }
+//         while(b!=nullptr){
+//             lenB++;
+//             b=b->next;
+//         }
+//         Diff = abs(lenA-lenB);
+//         a = headA, b = headB;
+//         if(lenA>=lenB){
+//             while(Diff>0){
+//                 a = a->next;
+//                 Diff--;
+//             }
+//         }
+//         else{
+//             while(Diff>0){
+//                 b = b->next;
+//                 Diff--;
+//             }
+//         }
+
+//         while(a!=b){
+//             a=a->next;
+//             b=b->next;
+//         }
+//         return a;
+//     }
+// };
+
+// 4.Optimal-II
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
         ListNode *a = headA, *b = headB;
-        int lenA=0, lenB=0, Diff=0;
-        while(a!=nullptr){
-            lenA++;
-            a=a->next;
-        }
-        while(b!=nullptr){
-            lenB++;
-            b=b->next;
-        }
-        Diff = abs(lenA-lenB);
-        a = headA, b = headB;
-        if(lenA>=lenB){
-            while(Diff>0){
-                a = a->next;
-                Diff--;
-            }
-        }
-        else{
-            while(Diff>0){
-                b = b->next;
-                Diff--;
-            }
-        }
-
         while(a!=b){
-            a=a->next;
-            b=b->next;
+         a=(a==nullptr)?headB:a->next;
+         b=(b==nullptr)?headA:b->next;
+
         }
         return a;
     }
 };
-
-
-// class Solution {
-// public:
-//     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        
-//     }
-// };
