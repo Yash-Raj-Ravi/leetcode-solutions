@@ -9,34 +9,42 @@
  * };
  */
 
-// class Solution {
-// public:
-//     ListNode* reverseKGroup(ListNode* head, int k) {
-//         int len = 0;
-//         ListNode* temp = head;
-//         while(temp!=NULL){
-//             len++;
-//             temp = temp->next;
-//         }
-//         temp = head;
-//         int x = len/k;
-//         stack<int> st;
-//         while(x!=0){
-//             int cnt=0;
-//             while(cnt<k){
-//             st.push(temp->val);
-//             temp=temp->next;
-//             cnt++;
-//             }
-//             while(!st.empty()){
-//                 ListNode *newNode = new ListNode(st.top());
+// 1.Brute
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
 
-//                 st.pop();
-//             }
-//             x--;
-//         }
-//     }
-// };
+        if(head==NULL || k<=1) return head;
+
+        ListNode* temp = head;
+        ListNode* Dummy = new ListNode(-1);
+        ListNode* tail = Dummy;
+
+        while(temp!=NULL){
+        ListNode* start = temp;
+        int x = k;
+        stack<ListNode*> st;
+        while(temp!=NULL && x!=0){ 
+        st.push(temp);
+        temp=temp->next;
+        x--;
+        }
+       if(x==0){
+        while(!st.empty()){
+            tail->next = st.top();
+            tail = tail->next;
+            st.pop();
+        }
+        tail->next = NULL; // Imp line
+       }
+       else{
+        tail->next = start;
+        break;
+       }
+      }
+      return Dummy->next;
+    }
+};
 
 // class Solution {
 // private:
@@ -66,61 +74,61 @@
 //     }
 // };
 
-// Optimal
-class Solution {
-private:
-    ListNode* rev(ListNode* H) {
+// // Optimal
+// class Solution {
+// private:
+//     ListNode* rev(ListNode* H) {
 
-        if (H == NULL || H->next == NULL)
-            return H;
+//         if (H == NULL || H->next == NULL)
+//             return H;
 
-        ListNode* temp = H;
-        ListNode *p = NULL, *q = NULL;
-        while (temp != NULL) {
-            q = p;
-            p = temp;
-            temp = temp->next;
-            p->next = q;
-        }
-        return p;
-    }
-    ListNode* findKthNode(ListNode* h, int k) {
-        ListNode* find = h;
-        int cnt = 0;
-        while (find!= NULL && cnt < k - 1) {
-            find = find->next;
-            cnt++;
-        }
+//         ListNode* temp = H;
+//         ListNode *p = NULL, *q = NULL;
+//         while (temp != NULL) {
+//             q = p;
+//             p = temp;
+//             temp = temp->next;
+//             p->next = q;
+//         }
+//         return p;
+//     }
+//     ListNode* findKthNode(ListNode* h, int k) {
+//         ListNode* find = h;
+//         int cnt = 0;
+//         while (find!= NULL && cnt < k - 1) {
+//             find = find->next;
+//             cnt++;
+//         }
 
-        return find;
-    }
+//         return find;
+//     }
 
-public:
-    ListNode* reverseKGroup(ListNode* head, int k) {
-        ListNode *temp = head, *prevNode = NULL, *NextNode = NULL;
-        while (temp != NULL) {
-            ListNode* KthNode = findKthNode(temp, k);
-            if (KthNode == NULL) {
-                if (prevNode)
-                    prevNode->next = temp;
-                break;
-            }
+// public:
+//     ListNode* reverseKGroup(ListNode* head, int k) {
+//         ListNode *temp = head, *prevNode = NULL, *NextNode = NULL;
+//         while (temp != NULL) {
+//             ListNode* KthNode = findKthNode(temp, k);
+//             if (KthNode == NULL) {
+//                 if (prevNode)
+//                     prevNode->next = temp;
+//                 break;
+//             }
 
-            else {
-                NextNode = KthNode->next;
-                KthNode->next = NULL;
-                rev(temp);
+//             else {
+//                 NextNode = KthNode->next;
+//                 KthNode->next = NULL;
+//                 rev(temp);
 
-                if (temp == head) {
-                    head = KthNode;
-                } 
-                else {
-                    prevNode->next = KthNode;
-                }
-            }
-            prevNode = temp;
-            temp = NextNode;
-        }
-        return head;
-    }
-};
+//                 if (temp == head) {
+//                     head = KthNode;
+//                 } 
+//                 else {
+//                     prevNode->next = KthNode;
+//                 }
+//             }
+//             prevNode = temp;
+//             temp = NextNode;
+//         }
+//         return head;
+//     }
+// };
