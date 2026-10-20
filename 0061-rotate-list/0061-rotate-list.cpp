@@ -21,12 +21,13 @@ public:
             len++;
             temp=temp->next;
         }
+
+        if(k%len==0) return head;
+
         temp = head;
         int shift=-1;
         if(k>len) {
             int modk = k%len;
-            if(modk==0) shift = 0;
-            else
             shift = abs(len-modk);
         }
         else{
