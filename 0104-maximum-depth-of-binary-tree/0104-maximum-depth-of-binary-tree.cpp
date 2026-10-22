@@ -27,17 +27,44 @@
 //     }
 // };
 
-// 2.Recursive (Striver)
+// // 2.Recursive (Striver)
+// class Solution {
+// public:
+//     int maxDepth(TreeNode* root) {
+//         if(root==NULL) return 0;
+
+//         int leftHeight = maxDepth(root->left);
+//         int rightHeight = maxDepth(root->right);
+
+//         return 1 + max(leftHeight,rightHeight);
+//     }
+// };
+
+// 3.Using Level Order Traversal
 class Solution {
 public:
     int maxDepth(TreeNode* root) {
+
+        vector<vector<int>> ans;
         if(root==NULL) return 0;
 
-        int leftHeight = maxDepth(root->left);
-        int rightHeight = maxDepth(root->right);
+        queue<TreeNode*> q;
+        q.push(root);
+    
+        while(!q.empty()){
+            int sz = q.size();
+    
+            vector<int> level;
 
-        return 1 + max(leftHeight,rightHeight);
+            for(int i=0;i<sz;i++){
+                TreeNode* node = q.front();
+                q.pop();
+                level.push_back(node->val);
+                if(node->left) q.push(node->left); 
+                if(node->right) q.push(node->right);    
+            }
+            ans.push_back(level);
+        }
+    return ans.size();
     }
 };
-
-// We could also have used level order traversal to find the height but it would lead to use of Queue Data structure.
