@@ -17,12 +17,12 @@ private:
     int maxPathsum(TreeNode* node) {
         if (node == NULL) return 0;
 
-        int leftSum = maxPathsum(node->left);
-        int rightSum = maxPathsum(node->right);
+        int leftSum = max(0,maxPathsum(node->left)); // We are avoiding paths with negative pathsum
+        int rightSum = max(0,maxPathsum(node->right));
 
-        maxsum = max(maxsum, node->val + max(0, leftSum) + max(0, rightSum));
+        maxsum = max(maxsum, node->val + leftSum + rightSum);
 
-        return node->val + max(0, max(leftSum, rightSum));
+        return node->val +  max(leftSum, rightSum);
     }
 
 public:
