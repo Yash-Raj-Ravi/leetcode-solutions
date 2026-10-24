@@ -14,7 +14,7 @@
 class Solution {
 public:
     vector<vector<int>> verticalTraversal(TreeNode* root) {
-        if(root==nullptr) return {};
+        //if(root==nullptr) return {};
 
         map<int, map<int, multiset<int>>> mp; // Map containing sorted vertical and level indices and a multiset containing values at a particular(V,L) in sorted order.
         queue<pair<TreeNode*, pair<int,int>>> q;
