@@ -14,7 +14,7 @@
 class Solution {
 public:
     vector<vector<int>> verticalTraversal(TreeNode* root) {
-        //if(root==nullptr) return {};
+        if(root==nullptr) return {};
 
         map<int, map<int, multiset<int>>> mp; // Map containing sorted vertical and level indices and a multiset containing values at a particular(V,L) in sorted order.
         queue<pair<TreeNode*, pair<int,int>>> q;
@@ -33,9 +33,9 @@ public:
             if(node->left) q.push({node->left,{x-1,y+1}});
             if(node->right) q.push({node->right,{x+1,y+1}});
         }
-            for(auto p:mp){
+            for(const auto& p:mp){
                 vector<int> vertical;
-                for(auto q:p.second){
+                for(const auto& q:p.second){
                     vertical.insert(vertical.end(),q.second.begin(),q.second.end());
                     // vector.insert(position, start_iterator, end_iterator);
                 }
