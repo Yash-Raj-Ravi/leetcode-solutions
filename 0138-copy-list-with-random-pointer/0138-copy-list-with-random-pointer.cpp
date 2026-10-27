@@ -37,7 +37,7 @@ public:
     }
 };
 
-
+// 2.Optimal
 // class Solution {
 // public:
 //     Node* copyRandomList(Node* head) {
